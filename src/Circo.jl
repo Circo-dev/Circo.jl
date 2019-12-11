@@ -5,6 +5,9 @@ include("Input.jl")
 include("Node.jl")
 include("Network.jl")
 
-export Input, Node, connect, isconnected, inputto, step!, Network, |
+include("bin/index.jl")
+
+export Input, Node, connect, isconnected, inputto, step!, Network, |,
+    tee
 
 end
