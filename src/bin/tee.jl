@@ -1,10 +1,10 @@
 using Serialization
 
 function tee(filename::String)
-    println("Tee: writing into $filename")
     return (input) -> begin
-        println("Tee: $input")
-        serialize("2x.test.bin", input)
+        s = open("2x.test.csv", "a") do file
+            println(file, "$input")
+        end
         input
     end
 end
