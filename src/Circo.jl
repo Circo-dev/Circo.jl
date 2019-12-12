@@ -8,6 +8,6 @@ include("Network.jl")
 include("bin/index.jl")
 
 export Input, Node, connect, isconnected, inputto, step!, Network, |,
-    tee
+    tee, cat
 
 end
