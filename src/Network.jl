@@ -22,8 +22,8 @@ end
 
 (|)(n::Network, f::Function) = begin
     fnode = Node(f)
-    addnode!(n, fnode)
     isempty(n.nodes) || connect(n.nodes[end], fnode)
+    addnode!(n, fnode)
     n
 end
 
