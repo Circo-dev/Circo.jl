@@ -2,12 +2,10 @@ using Test
 using Circo
 
 @testset "tee" begin
-    filename = "2x.test.csv"
-    rm(filename;force=true)
-    workflow = (x -> 2x) | tee(filename) | (y -> y^2)
-    @test workflow([1]) == [4]
-    s = open(filename) do file
-        @test read(file, String) == "2\n"
+    s = mktemp() do path, file
+        workflow = (x -> 2x) | tee(path) | (y -> y^2)
+        @test workflow([1]) == [4]
+        @test workflow([5]) == [100]
+        @test read(file, String) == "2\n10\n"
     end
-    rm(filename;force=true)
 end

@@ -1,3 +1,5 @@
+import Base.>
+
 mutable struct Network
      nodes::Array{Node}
      globalstep::Int64
@@ -25,6 +27,15 @@ end
     isempty(n.nodes) || connect(n.nodes[end], fnode)
     addnode!(n, fnode)
     n
+end
+
+(>)(n::Network, path::String) = begin
+   n | input -> begin
+            open(path, "a") do file
+               println(file, "$input")
+            end
+            input
+        end
 end
 
 function step!(network::Network)
