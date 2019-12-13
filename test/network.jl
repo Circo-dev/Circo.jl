@@ -12,5 +12,5 @@ end
 @testset "Network execution" begin
     network = (y -> 2y) | (y -> y^2)
     @test typeof(network) == Network
-    @test network([1]) == [4]
+    @test network(1) == 4
 end

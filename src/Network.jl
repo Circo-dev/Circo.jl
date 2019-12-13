@@ -45,11 +45,11 @@ function step!(network::Network)
     network.globalstep += 1
 end
 
-function inputto(network::Network, data::InputData)
+function inputto(network::Network, data)
     inputto(network.nodes[1], data, network.globalstep)
 end
 
-function (network::Network)(data::InputData)
+function (network::Network)(data)
     inputto(network, data)
     step!(network)
     network.nodes[end].output

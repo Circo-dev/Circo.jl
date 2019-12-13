@@ -1,7 +1,7 @@
-InputData = Array{Int64}
+InputData = Int64
 
 struct Input
-    data::InputData
+    data
     sender
     globalstep::Int64
 end

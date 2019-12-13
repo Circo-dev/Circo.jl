@@ -3,7 +3,7 @@ using Circo
 
 function sourceandinputs(targetnode)
     sourcenode = Node(() -> nothing)
-    inputs = [Input([i], sourcenode, i) for i = 1:3]
+    inputs = [Input(i, sourcenode, i) for i = 1:3]
     connect(sourcenode, targetnode)
     sourcenode, inputs
 end
@@ -36,9 +36,9 @@ end
         for i in 1:3
             inputto(idnode, inputs[i])
             step!(idnode, i)
-            @test idnode.output == [i]
+            @test idnode.output == i
             step!(sqrnode, i)
-            @test sqrnode.output == [i^2]
+            @test sqrnode.output == i^2
         end
     end
 
@@ -51,7 +51,7 @@ end
             inputto(idnode, inputs[i])
             step!(idnode, i)
             map(node -> step!(node, i), powxnodes)
-            @test map(node -> node.output, powxnodes) == [[i^k] for k=1:3]
+            @test map(node -> node.output, powxnodes) == [i^k for k=1:3]
         end
     end
 end
