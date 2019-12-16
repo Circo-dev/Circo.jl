@@ -14,3 +14,11 @@ end
     @test typeof(network) == Network
     @test network(1) == 4
 end
+
+@testset "Network execution without input" begin
+    hasinput = globalstep -> globalstep <= 3
+    identity = x -> x
+    network = (identity, hasinput) | (y -> y^2)
+    @test typeof(network) == Network
+    @test network() == 9
+end

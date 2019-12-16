@@ -10,8 +10,18 @@ function addnode!(network::Network, node::Node)
     push!(network.nodes, node)
 end
 
+function addfirstnode!(network::Network, node::Node)
+    pushfirst!(network.nodes, node)
+end
+
 (|)(a::Function, b::Function) = begin
     anode, bnode = Node(a), Node(b)
+    connect(anode, bnode)
+    Network([anode, bnode])
+end
+
+(|)(source::SourceFunction, b::Function) = begin
+    anode, bnode = Node(source), Node(b)
     connect(anode, bnode)
     Network([anode, bnode])
 end
@@ -52,5 +62,12 @@ end
 function (network::Network)(data)
     inputto(network, data)
     step!(network)
+    network.nodes[end].output
+end
+
+function (network::Network)()
+    while hasinput(network.nodes[1], network.globalstep)
+        step!(network)
+    end
     network.nodes[end].output
 end

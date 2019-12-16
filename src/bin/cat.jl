@@ -2,12 +2,12 @@ import Base.cat
 
 function cat(filename::String)
     f = open(filename)
-    return (input) -> begin
+    return (globalstep) -> begin
         if eof(f)
             close(f)
-            return input
+            return nothing
         end
         line = readline(f)
         parse(Int64, line)
-    end
+    end, (globalstep) -> !eof(f)
 end
