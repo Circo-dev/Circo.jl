@@ -3,7 +3,7 @@ import Base.>
 mutable struct Network
      nodes::Array{Node}
      globalstep::Int64
-     Network(nodes::Array{Node}) = new(nodes, 0)
+     Network(nodes::Array{Node}) = new(nodes, 1)
 end
 
 function addnode!(network::Network, node::Node)
@@ -41,8 +41,10 @@ end
 
 (>)(n::Network, path::String) = begin
    n | input -> begin
-            open(path, "a") do file
-               println(file, "$input")
+            if input != nothing
+                open(path, "a") do file
+                   println(file, "$input")
+                end
             end
             input
         end

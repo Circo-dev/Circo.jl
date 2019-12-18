@@ -53,7 +53,7 @@ function flatinputs(node::Node)
 end
 
 function step!(node::Node, globalstep::Int64)
-    inputs = collect(flatinputs(node))
+    #inputs = collect(flatinputs(node))
     if length(node.inputs) == 0
         node.output = node.op!(globalstep)
     else
