@@ -15,6 +15,14 @@ end
     @test network(1) == 4
 end
 
+@testset "Network concatenation" begin
+    n1 = (y -> y) | (y -> 2y)
+    n2 = (y -> y) | (x -> x^2)
+    n = n1 | n2
+    @test length(n.nodes) == 4
+    @test n(1) == 4
+end
+
 @testset "Network execution without input" begin
     hasinput = globalstep -> globalstep <= 3
     identity = x -> x

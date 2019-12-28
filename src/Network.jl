@@ -46,6 +46,14 @@ end
     n
 end
 
+(|)(n1::Network, n2::Network) = begin
+    isempty(n1.nodes) || isempty(n2.nodes) || connect(n1.nodes[end], n2.nodes[1])
+    for node in n2.nodes
+        addnode!(n1, node)
+    end
+    n1
+end
+
 (>)(n::Network, path::String) = begin
    n | input -> begin
             if input != nothing
