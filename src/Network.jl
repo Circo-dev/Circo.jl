@@ -26,6 +26,13 @@ end
     Network([anode, bnode])
 end
 
+(|)(source::SourceFunction, n::Network) = begin
+    sourcenode = Node(source)
+    isempty(n.nodes) || connect(sourcenode, n.nodes[1])
+    addfirstnode!(n, sourcenode)
+    n
+end
+
 (|)(anode::Node, b::Function) = begin
     bnode = Node(b)
     connect(anode,bnode)
