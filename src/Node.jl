@@ -4,7 +4,7 @@ abstract type AbstractNode
 end
 
 mutable struct Node <: AbstractNode
-    inputs::AbstractVector{Input}
+    inputs::Vector{Input}
     inputmap::IdDict{Node, Number} # source => input idx
     output
     connections::Set{Node}

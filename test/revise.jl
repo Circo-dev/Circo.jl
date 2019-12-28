@@ -7,7 +7,7 @@ trigger = function (path)
     printstyled("changed ", color=:cyan)
     println(path)
     revise()
-    runtests(@__DIR__, skip=["revise.jl"])
+    runtests(@__DIR__, skip=["revise.jl", "performance"])
 end
 
 watch(trigger, @__DIR__, sources=[pathof(Circo)])
