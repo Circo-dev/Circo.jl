@@ -46,9 +46,9 @@ version = "0.20.0"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "a1b652fb77ae8ca7ea328fa7ba5aa151036e5c10"
+git-tree-sha1 = "f784254f428fb8fd7ac15982e5862a38a44523d3"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.17.6"
+version = "0.17.7"
 
 [[DataValueInterfaces]]
 git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
@@ -167,6 +167,12 @@ version = "0.3.10"
 deps = ["Dates", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "UUIDs"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
+[[PkgBenchmark]]
+deps = ["BenchmarkTools", "Dates", "InteractiveUtils", "JSON", "LibGit2", "Pkg", "Printf", "ProgressMeter"]
+git-tree-sha1 = "eeda9bde6194b57515c2494082ee1875ebf140ad"
+uuid = "32113eaa-f34f-5b0d-bd6c-c81e245fc73d"
+version = "0.2.6"
+
 [[PkgTemplates]]
 deps = ["Dates", "InteractiveUtils", "LibGit2", "Mustache", "Pkg", "REPL", "URIParser"]
 git-tree-sha1 = "6a3d8265d7d4319ea9a6f2e2700275c53228a910"
@@ -182,6 +188,12 @@ version = "0.5.3"
 [[Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
+[[ProgressMeter]]
+deps = ["Distributed", "Printf"]
+git-tree-sha1 = "ea1f4fa0ff5e8b771bf130d87af5b7ef400760bd"
+uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
+version = "1.2.0"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets"]
