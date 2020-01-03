@@ -5,3 +5,6 @@ julia:
 
 notifications:
   email: false
+
+script:
+  - julia --project --check-bounds=yes -e 'import Pkg; Pkg.build(); Pkg.test("Circo"; coverage=false)'
