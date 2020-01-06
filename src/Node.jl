@@ -2,7 +2,7 @@ SourceFunction = Tuple{Function, Function}
 
 mutable struct Node{F}
     inputs::Vector{Input}
-    inputmap::IdDict{Node{F}, Number} # source => input idx
+    inputmap::IdDict{Node, Number} # source => input idx
     output
     connections::Set{Node}
     op!::F
