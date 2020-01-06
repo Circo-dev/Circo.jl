@@ -8,3 +8,4 @@ end
 
 SUITE["Node"] = BenchmarkGroup()
 SUITE["Node"]["iteratedsteps"] = @benchmarkable iteratedsteps!(node, 1000) setup=(node = Node(x -> x))
+SUITE["Node"]["iteratedsteps2x"] = @benchmarkable iteratedsteps!(node, 1000) setup=(node = Node(x -> 2x))

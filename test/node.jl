@@ -10,9 +10,10 @@ end
 
 @testset "Circo tests" begin
     @testset "Node creation" begin
-        idnode = Node(x -> x)
+        idfunc = (x -> x)
+        idnode = Node(idfunc)
         sqrnode = Node(x -> x.^2)
-        @test typeof(idnode) == Node
+        @test typeof(idnode) == Node{typeof(idfunc)}
         @test sqrnode.op!(42) == 42^2
         @test sqrnode.op!([42]) == [42^2]
     end

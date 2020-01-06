@@ -1,17 +1,14 @@
 SourceFunction = Tuple{Function, Function}
 
-abstract type AbstractNode
-end
-
-mutable struct Node <: AbstractNode
+mutable struct Node{F}
     inputs::Vector{Input}
-    inputmap::IdDict{Node, Number} # source => input idx
+    inputmap::IdDict{Node{F}, Number} # source => input idx
     output
     connections::Set{Node}
-    op!::Function
+    op!::F
     hasinput::Union{Function, Nothing}
-    Node(op!::Function) = new(Vector(), IdDict(), 0, Set(), op!, nothing)
-    Node(source::SourceFunction) = new(Vector(), IdDict(), 0, Set(), source[1], source[2])
+    Node(op!) = new{typeof(op!)}(Vector(), IdDict(), 0, Set(), op!, nothing)
+    Node(source::SourceFunction) = new{typeof(source[1])}(Vector(), IdDict(), 0, Set(), source[1], source[2])
 end
 
 function inputslot(node::Node)::Int

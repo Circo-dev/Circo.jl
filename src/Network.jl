@@ -3,7 +3,7 @@ import Base.>
 mutable struct Network
      nodes::Array{Node}
      globalstep::Int64
-     Network(nodes::Array{Node}) = new(nodes, 1)
+     Network(nodes) = new(nodes, 1)
 end
 
 function addnode!(network::Network, node::Node)
