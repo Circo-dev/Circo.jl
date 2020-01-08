@@ -21,7 +21,7 @@ function hasinput(node::Node, globalstep::Int64)
 end
 
 function issource(node::Node)
-    return applicable(node.op!)
+    return length(node.inputs) == 0 && applicable(node.op!, Int64)
 end
 
 function connect(source::Node, target::Node)
@@ -50,11 +50,14 @@ function flatinputs(node::Node)
 end
 
 function step!(node::Node, globalstep::Int64)
-    #inputs = collect(flatinputs(node))
-    if length(node.inputs) == 0
+    inputlength = length(node.inputs)
+    if inputlength == 0
         node.output = node.op!(globalstep)
-    else
+    elseif inputlength == 1
         node.output = node.op!(node.inputs[1].data)
+    else
+        inputs = collect(flatinputs(node))
+        node.output = node.op!(inputs)
     end
     for target in node.connections
         inputto(target, Input(node.output, node, globalstep))

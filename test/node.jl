@@ -16,6 +16,10 @@ end
         @test typeof(idnode) == Node{typeof(idfunc)}
         @test sqrnode.op!(42) == 42^2
         @test sqrnode.op!([42]) == [42^2]
+        sourcenode = Node(globalstep -> 42)
+        @test issource(sourcenode) == true
+        connect(idnode, sqrnode)
+        @test issource(sqrnode) == false
     end
 
     @testset "Connecting" begin
@@ -43,7 +47,7 @@ end
         end
     end
 
-    @testset "Multi-connections" begin
+    @testset "Multi-output connections" begin
         idnode = Node(x -> x)
         sourcenode, inputs = sourceandinputs(idnode)
         powxnodes = [Node(x -> x^k) for k=1:3]
@@ -54,5 +58,20 @@ end
             map(node -> step!(node, i), powxnodes)
             @test map(node -> node.output, powxnodes) == [i^k for k=1:3]
         end
+    end
+
+    @testset "Multi-input connections" begin
+        idnode = Node(x -> x)
+        sourcenode1 = Node((globalstep) -> 42)
+        sourcenode2 = Node((globalstep) -> 43)
+        sourcenode3 = Node((globalstep) -> 44)
+        connect(sourcenode1, idnode)
+        connect(sourcenode2, idnode)
+        connect(sourcenode3, idnode)
+        step!(sourcenode1, 1)
+        step!(sourcenode2, 1)
+        step!(sourcenode3, 1)
+        step!(idnode, 1)
+        @test idnode.output == [42, 43, 44]
     end
 end

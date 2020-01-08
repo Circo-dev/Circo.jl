@@ -9,6 +9,7 @@ include("formats/DataFrame.jl")
 include("bin/index.jl")
 
 export Input, Node, connect, isconnected, inputto, step!, Network, |, hasinput,
+    issource,
     tee, cat
 
 end

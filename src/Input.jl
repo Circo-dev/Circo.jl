@@ -1,5 +1,3 @@
-InputData = Int64
-
 struct Input
     data
     sender
