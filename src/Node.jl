@@ -1,14 +1,16 @@
+NodeId = UInt64
 SourceFunction = Tuple{Function, Function}
 
 mutable struct Node{F}
+    id::NodeId
     inputs::Vector{Input}
-    inputmap::IdDict{Node, Number} # source => input idx
+    inputmap::Dict{NodeId, UInt} # source => input idx
     output
     connections::Set{Node}
     op!::F
     hasinput::Union{Function, Nothing}
-    Node(op!) = new{typeof(op!)}(Vector(), IdDict(), 0, Set(), op!, nothing)
-    Node(source::SourceFunction) = new{typeof(source[1])}(Vector(), IdDict(), 0, Set(), source[1], source[2])
+    Node(op!) = new{typeof(op!)}(rand(UInt64), Vector(), IdDict(), 0, Set(), op!, nothing)
+    Node(source::SourceFunction) = new{typeof(source[1])}(rand(UInt64), Vector(), IdDict(), 0, Set(), source[1], source[2])
 end
 
 function inputslot(node::Node)::Int
@@ -27,7 +29,7 @@ end
 function connect(source::Node, target::Node)
     push!(source.connections, target)
     slot = inputslot(target)
-    target.inputmap[source] = slot
+    target.inputmap[source.id] = slot
 end
 
 function isconnected(source::Node, target::Node)
@@ -35,7 +37,7 @@ function isconnected(source::Node, target::Node)
 end
 
 function inputto(node::Node, input::Input)
-    slot = node.inputmap[input.sender]#TODO enque if needed
+    slot = node.inputmap[input.sender.id]#TODO enque if needed
     node.inputs[slot] = input
 end
 
