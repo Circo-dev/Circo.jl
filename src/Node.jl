@@ -47,6 +47,12 @@ function inputto(sourcenode::Node, data, globalstep::Int64)
     sourcenode.inputs[slot] = input
 end
 
+function forward_output(sourcenode, globalstep::Int64)
+    for target in sourcenode.connections
+        inputto(target, Input(sourcenode.output, sourcenode, globalstep))
+    end
+end
+
 function step!(node::Node, globalstep::Int64)
     inputlength = length(node.inputs)
     if inputlength == 0
@@ -56,7 +62,5 @@ function step!(node::Node, globalstep::Int64)
     else
         node.output = node.op!([input.data for input = node.inputs])
     end
-    for target in node.connections
-        inputto(target, Input(node.output, node, globalstep))
-    end
+    forward_output(node, globalstep)
 end
