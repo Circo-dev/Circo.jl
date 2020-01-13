@@ -47,10 +47,6 @@ function inputto(sourcenode::Node, data, globalstep::Int64)
     sourcenode.inputs[slot] = input
 end
 
-function flatinputs(node::Node)
-    Iterators.flatten([input.data for input = node.inputs])
-end
-
 function step!(node::Node, globalstep::Int64)
     inputlength = length(node.inputs)
     if inputlength == 0
@@ -58,8 +54,7 @@ function step!(node::Node, globalstep::Int64)
     elseif inputlength == 1
         node.output = node.op!(node.inputs[1].data)
     else
-        inputs = collect(flatinputs(node))
-        node.output = node.op!(inputs)
+        node.output = node.op!([input.data for input = node.inputs])
     end
     for target in node.connections
         inputto(target, Input(node.output, node, globalstep))
