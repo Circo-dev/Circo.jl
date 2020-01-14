@@ -1,9 +1,15 @@
 import Base.>
+import Base.show
 
 mutable struct Network
      nodes::Array{Node}
      globalstep::Int64
      Network(nodes) = new(nodes, 1)
+end
+
+function Base.show(io::IO, n::Network)
+    l = length(n.nodes)
+    print("Circo.Network with $l nodes.")
 end
 
 function addnode!(network::Network, node::Node)
