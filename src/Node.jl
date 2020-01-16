@@ -1,16 +1,17 @@
 NodeId = UInt64
 SourceFunction = Tuple{Function, Function}
 
-mutable struct Node{F}
+mutable struct Node{C}
     id::NodeId
     inputs::Vector{Input}
     inputmap::Dict{NodeId, UInt} # source => input idx
     output
     connections::Set{Node}
-    op!::F
+    component::C
     hasinput::Union{Function, Nothing}
-    Node(op!) = new{typeof(op!)}(rand(UInt64), Vector(), IdDict(), 0, Set(), op!, nothing)
-    Node(source::SourceFunction) = new{typeof(source[1])}(rand(UInt64), Vector(), IdDict(), 0, Set(), source[1], source[2])
+    Node(op::Function) = new{FunComp{typeof(op)}}(rand(UInt64), Vector(), IdDict(), 0, Set(), FunComp(op), nothing)
+    Node(source::SourceFunction) = new{FunComp{typeof(source[1])}}(rand(UInt64), Vector(), IdDict(), 0, Set(), FunComp(source[1]), source[2])
+    Node(comp) = new{typeof(comp)}(rand(UInt64), Vector(), IdDict(), 0, Set(), comp, nothing)
 end
 
 function inputslot(node::Node)::Int
@@ -23,7 +24,7 @@ function hasinput(node::Node, globalstep::Int64)
 end
 
 function issource(node::Node)
-    return length(node.inputs) == 0 && applicable(node.op!, Int64)
+    return length(node.inputs) == 0 && applicable(calculate, node.component, Int64)
 end
 
 function connect(source::Node, target::Node)
@@ -56,11 +57,11 @@ end
 function step!(node::Node, globalstep::Int64)
     inputlength = length(node.inputs)
     if inputlength == 0
-        node.output = node.op!(globalstep)
+        node.output = calculate(node.component, globalstep)
     elseif inputlength == 1
-        node.output = node.op!(node.inputs[1].data)
+        node.output = calculate(node.component, node.inputs[1].data)
     else
-        node.output = node.op!([input.data for input = node.inputs])
+        node.output = calculate(node.component, [input.data for input = node.inputs])
     end
     forward_output(node, globalstep)
 end

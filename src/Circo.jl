@@ -7,9 +7,16 @@ include("Network.jl")
 
 include("formats/DataFrame.jl")
 include("bin/index.jl")
+include("components/index.jl")
 
-export Input, Node, connect, isconnected, inputto, step!, Network, |, hasinput,
+export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
     issource,
-    tee, cat
+    
+    tee, cat,
+    
+    Component, 
+    KernelComp, InfraComp, AppComp, WorkerComp,
+    calculate,
 
+    FunComp
 end
