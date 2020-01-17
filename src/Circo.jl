@@ -18,5 +18,7 @@ export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
     KernelComp, InfraComp, AppComp, WorkerComp,
     calculate,
 
+    connected_inputs,
+
     FunComp
 end
