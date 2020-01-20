@@ -19,6 +19,7 @@ export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
     calculate,
 
     connected_inputs,
+    connected_outputs,
 
     FunComp
 end
