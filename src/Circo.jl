@@ -5,14 +5,19 @@ include("Input.jl")
 include("Node.jl")
 include("Network.jl")
 
+include("dsl/index.jl")
 include("formats/DataFrame.jl")
 include("bin/index.jl")
 include("components/index.jl")
+include("scheduling/index.jl")
 
 export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
     issource,
     
     tee, cat,
+    
+    AbstractScheduler,
+    SimpleScheduler,
     
     Component, 
     KernelComp, InfraComp, AppComp, WorkerComp,
