@@ -25,13 +25,16 @@ function output_disconnected(component::Component, target::ComponentId)
 end
 
 # Management interface
-struct ManagementMessage
+struct ManagementMessage{BodyType}
   sender::ComponentId
   type::String
-  body::String
+  body::BodyType
 end
 
 function message_received(component::Component, message::ManagementMessage)::Union{ManagementMessage, Nothing}
+  sender = message.sender
+  body = message.body
+  return nothing
 end
 
 function getstate(component::Component)

@@ -18,6 +18,11 @@ export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
     KernelComp, InfraComp, AppComp, WorkerComp,
     compute,
 
+    ManagementMessage,
+    message_received,
+    getstate,
+    setstate,
+
     connected_inputs,
     connected_outputs,
 
