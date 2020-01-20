@@ -7,5 +7,5 @@ function iteratedsteps!(node, itercount)
 end
 
 SUITE["Node"] = BenchmarkGroup()
-SUITE["Node"]["iteratedsteps"] = @benchmarkable iteratedsteps!(node, 1000) setup=(node = Node(x -> x))
-SUITE["Node"]["iteratedsteps2x"] = @benchmarkable iteratedsteps!(node, 1000) setup=(node = Node(x -> 2x))
+SUITE["Node"]["nodeonly_1000steps_id"] = @benchmarkable iteratedsteps!(node, 1000) setup=(node = Node(x -> x))
+SUITE["Node"]["nodeonly_1000steps_2x"] = @benchmarkable iteratedsteps!(node, 1000) setup=(node = Node(x -> 2x))
