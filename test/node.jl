@@ -14,8 +14,8 @@ end
         idnode = Node(idfunc)
         sqrnode = Node(x -> x.^2)
         @test typeof(idnode) == Node{FunComp{typeof(idfunc)}}
-        @test calculate(sqrnode.component,42) == 42^2
-        @test calculate(sqrnode.component, [42]) == [42^2]
+        @test compute(sqrnode.component,42) == 42^2
+        @test compute(sqrnode.component, [42]) == [42^2]
         sourcenode = Node(globalstep -> 42)
         @test issource(sourcenode) == true
         connect(idnode, sqrnode)

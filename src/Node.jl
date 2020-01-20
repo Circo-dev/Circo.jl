@@ -24,7 +24,7 @@ function hasinput(node::Node, globalstep::Int64)
 end
 
 function issource(node::Node)
-    return length(node.inputs) == 0 && applicable(calculate, node.component, Int64)
+    return length(node.inputs) == 0 && applicable(compute, node.component, Int64)
 end
 
 function connect(source::Node, target::Node)
@@ -57,11 +57,11 @@ end
 function step!(node::Node, globalstep::Int64)
     inputlength = length(node.inputs)
     if inputlength == 0
-        node.output = calculate(node.component, globalstep)
+        node.output = compute(node.component, globalstep)
     elseif inputlength == 1
-        node.output = calculate(node.component, node.inputs[1].data)
+        node.output = compute(node.component, node.inputs[1].data)
     else
-        node.output = calculate(node.component, [input.data for input = node.inputs])
+        node.output = compute(node.component, [input.data for input = node.inputs])
     end
     forward_output(node, globalstep)
 end
