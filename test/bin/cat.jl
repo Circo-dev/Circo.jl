@@ -7,7 +7,7 @@ using Circo
         open(sourcepath, "w") do sourcefile
             println(sourcefile, "10\n200\n5\n")
         end
-        workflow = cat(sourcepath) | (x -> 2x) > resultpath
+        workflow = SimpleScheduler(cat(sourcepath) | (x -> 2x) > resultpath)
         for i in 1:3
             step!(workflow)
         end
