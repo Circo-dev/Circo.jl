@@ -9,7 +9,7 @@ include("dsl/index.jl")
 include("formats/DataFrame.jl")
 include("bin/index.jl")
 include("components/index.jl")
-include("scheduling/index.jl")
+include("execution/index.jl")
 
 export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
     issource,
