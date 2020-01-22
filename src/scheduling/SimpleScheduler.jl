@@ -9,7 +9,13 @@ function (network::Network)()
   scheduler()
 end
 
-function (scheduler::AbstractScheduler)()
+function (scheduler::SimpleScheduler)(data)
+  inputto(scheduler, data)
+  step!(scheduler)
+  return scheduler.network.nodes[end].output
+end
+
+function (scheduler::SimpleScheduler)()
   while hasinput(scheduler.network.nodes[1], scheduler.globalstep)
       step!(scheduler)
   end
