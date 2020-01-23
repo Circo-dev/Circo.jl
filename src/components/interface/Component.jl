@@ -1,10 +1,6 @@
 ComponentId = UInt64
 abstract type Component end
 
-# Operations interface
-function compute(component::Component, inputs)
-end
-
 # Lifecycle interface
 function mounted(component::Component)
 end
