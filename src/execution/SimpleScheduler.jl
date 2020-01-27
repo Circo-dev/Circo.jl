@@ -17,7 +17,7 @@ end
 
 function forward_output(c::WantlessComputation, scheduler::SimpleScheduler, superstep::Int64)
   for target in c.node.connections
-      inputto(scheduler.computationcache[target.id], Input(c.output, c.node, superstep))
+      inputto(scheduler.computationcache[target.id], Input(c.output, c.node.id, superstep))
   end
   return nothing
 end

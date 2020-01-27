@@ -1,14 +1,14 @@
 module Circo
 import Base.|
 
+include("components/index.jl")
 include("Input.jl")
 include("Node.jl")
 include("Network.jl")
 
 include("dsl/index.jl")
-include("formats/DataFrame.jl")
+include("formats/index.jl")
 include("bin/index.jl")
-include("components/index.jl")
 include("execution/index.jl")
 
 export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,

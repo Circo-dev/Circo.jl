@@ -1,5 +1,5 @@
 struct Input
     data
-    sender
+    sender::ComponentId
     superstep::Int64
 end

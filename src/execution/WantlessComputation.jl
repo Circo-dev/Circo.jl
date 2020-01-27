@@ -6,14 +6,14 @@ mutable struct WantlessComputation{C<:Component}
 end
 
 function inputto(c::WantlessComputation, input::Input)
-  slot = c.node.inputmap[input.sender.id]
+  slot = c.node.inputmap[input.sender]
   c.inputs[slot] = input
 end
 
 function inputto(c::WantlessComputation, data, superstep::Int64)
   length(c.inputs) > 0 || push!(c.inputs, Input(0,0,0))
   slot = 1 # Source node has only one input
-  input = Input(data, nothing, superstep)
+  input = Input(data, 0, superstep)
   c.inputs[slot] = input
 end
 
