@@ -24,7 +24,7 @@ end
 end
 
 @testset "Network execution without input" begin
-    hasinput = globalstep -> globalstep <= 3
+    hasinput = superstep -> superstep <= 3
     identity = x -> x
     network = (identity, hasinput) | (y -> y^2)
     @test isa(network, Network)

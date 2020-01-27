@@ -1,32 +1,39 @@
-function inputto(node::Node, input::Input)
-  slot = node.inputmap[input.sender.id]
-  node.inputs[slot] = input
+mutable struct WantlessComputation{C<:Component}
+  node::Node{C} #TODO rename both the field and the type
+  inputs::Vector{Input}
+  output
+  WantlessComputation(node::Node) = new{typeof(node.component)}(node,Vector{Input}(undef,length(node.inputs)),0)
 end
 
-function inputto(sourcenode::Node, data, globalstep::Int64)
-  slot = isempty(sourcenode.inputs) ? inputslot(sourcenode) : 1
-  input = Input(data, nothing, globalstep)
-  sourcenode.inputs[slot] = input
+function inputto(c::WantlessComputation, input::Input)
+  slot = c.node.inputmap[input.sender.id]
+  c.inputs[slot] = input
 end
 
-function forward_output(sourcenode, globalstep::Int64)
-  for target in sourcenode.connections
-      inputto(target, Input(sourcenode.output, sourcenode, globalstep))
-  end
+function inputto(c::WantlessComputation, data, superstep::Int64)
+  length(c.inputs) > 0 || push!(c.inputs, Input(0,0,0))
+  slot = 1 # Source node has only one input
+  input = Input(data, nothing, superstep)
+  c.inputs[slot] = input
 end
 
-function step!(node::Node, globalstep::Int64)
-  inputlength = length(node.inputs)
+function forward_output(c::WantlessComputation, scheduler::AbstractScheduler, superstep::Int64)
+  return nothing
+end
+
+function step!(c::WantlessComputation, scheduler::AbstractScheduler, superstep::Int64)
+  inputlength = length(c.inputs)
   if inputlength == 0
-      node.output = compute(node.component, globalstep)
+      c.output = compute(c.node.component, superstep)
   elseif inputlength == 1
-      node.output = compute(node.component, node.inputs[1].data)
+      c.output = compute(c.node.component, c.inputs[1].data)
   else
-      node.output = compute(node.component, [input.data for input = node.inputs])
+      c.output = compute(c.node.component, [input.data for input = c.inputs])
   end
-  forward_output(node, globalstep)
+  forward_output(c, scheduler, superstep)
+  return nothing
 end
 
 function inputto(scheduler::AbstractScheduler, data)
-  inputto(scheduler.network.nodes[1], data, scheduler.globalstep)
+  inputto(scheduler.computations[1], data, scheduler.superstep)
 end

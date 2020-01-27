@@ -1,5 +1,5 @@
 struct Input
     data
     sender
-    globalstep::Int64
+    superstep::Int64
 end

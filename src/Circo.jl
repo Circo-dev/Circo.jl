@@ -22,6 +22,7 @@ export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
     Component, 
     KernelComp, InfraComp, AppComp, WorkerComp,
     compute,
+    WantlessComputation,
 
     ManagementMessage,
     message_received,

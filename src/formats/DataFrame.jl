@@ -1,8 +1,8 @@
 using DataFrames
 
 function tosourcefunction(df::DataFrame)::SourceFunction
-    return (globalstep) -> df[globalstep, :],
-           (globalstep) -> nrow(df) >= globalstep
+    return (superstep) -> df[superstep, :],
+           (superstep) -> nrow(df) >= superstep
 end
 
 (|)(source::DataFrame, f::Function)::Network = begin
