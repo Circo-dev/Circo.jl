@@ -8,7 +8,7 @@ include("formats/index.jl")
 include("bin/index.jl")
 include("execution/index.jl")
 
-export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
+export Node, Input, connect, isconnected, inputto, Network, |, hasinput,
     issource,
     
     tee, cat,
@@ -20,6 +20,9 @@ export Node, Input, connect, isconnected, inputto, step!, Network, |, hasinput,
     KernelComp, InfraComp, AppComp, WorkerComp,
     compute,
     WantlessComputation,
+    step!,
+    step_forward_output!,
+    rollout!,
 
     ManagementMessage,
     message_received,

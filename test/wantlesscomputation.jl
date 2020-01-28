@@ -14,20 +14,20 @@ using Circo
       end
   end
 
-   @testset "Multi-input connections" begin
+  @testset "Multi-input connections" begin
       idnode = Node(x -> x)
-      sourcenode1 = Node((superstep) -> 42)
-      sourcenode2 = Node((superstep) -> 43)
-      sourcenode3 = Node((superstep) -> 44)
+      sourcenode1 = Node((superstep -> 42, superstep -> true))
+      sourcenode2 = Node((superstep -> 43, superstep -> true))
+      sourcenode3 = Node((superstep -> 44, superstep -> true))
       connect(sourcenode1, idnode)
       connect(sourcenode2, idnode)
       connect(sourcenode3, idnode)
       network = Network([sourcenode1, sourcenode2, sourcenode3, idnode])
       scheduler = SimpleScheduler(network)
-      step!(scheduler.computations[1], scheduler, 1)
-      step!(scheduler.computations[2], scheduler, 1)
-      step!(scheduler.computations[3], scheduler, 1)
-      step!(scheduler.computations[4], scheduler, 1)
+      step_forward_output!(scheduler.computations[1], scheduler, 1)
+      step_forward_output!(scheduler.computations[2], scheduler, 1)
+      step_forward_output!(scheduler.computations[3], scheduler, 1)
+      step_forward_output!(scheduler.computations[4], scheduler, 1)
       @test scheduler.computations[4].output == [42, 43, 44]
   end
  end

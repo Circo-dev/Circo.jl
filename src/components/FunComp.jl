@@ -3,5 +3,6 @@ struct FunComp{F} <: Component
 end
 
 function compute(component::FunComp, inputs)
+  isnothing(inputs) && return nothing
   component.op(inputs)
 end

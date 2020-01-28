@@ -11,6 +11,7 @@ using Circo
         for i in 1:3
             step!(workflow)
         end
+        rollout!(workflow)
         @test read(resultfile, String) == "20\n400\n10\n"
         rm(sourcepath; force=true)
     end

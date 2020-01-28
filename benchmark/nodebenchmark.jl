@@ -5,7 +5,7 @@ end
 
 function iteratedsteps!(computation, scheduler, itercount=1000)
     for stepnum in 1:itercount
-        step!(computation, scheduler, stepnum)
+        step!(computation, stepnum)
     end
 end
 

@@ -12,7 +12,10 @@ end
 function iterate_network!(scheduler, itercount)
     sum = 0
     for stepnum in 1:itercount
-        sum += scheduler(stepnum)
+        result = scheduler(stepnum;rollout=false)
+        if !isnothing(result)
+            sum += result
+        end
     end
     return sum
 end
@@ -26,3 +29,4 @@ SUITE["Network"]["1node_1000steps2x"] = @benchmarkable iterate_network!(schedule
 SUITE["Network"]["2nodes_1000steps2xplus1"] = @benchmarkable iterate_network!(scheduler, 1000) setup=(scheduler = SimpleScheduler(((x -> 2x) | (x -> x+1))))
 SUITE["Network"]["4nodes_1000steps4xplus2"] = @benchmarkable iterate_network!(scheduler, 1000) setup=(scheduler = SimpleScheduler(((x -> 2x) | (x -> 2x) | (x -> x+1) | (x -> x+1))))
 SUITE["Network"]["1000nodes_1step"] = @benchmarkable iterate_network!(scheduler, 1) setup=(scheduler = (SimpleScheduler(createchain())))
+SUITE["Network"]["1000nodes_10000step"] = @benchmarkable iterate_network!(scheduler, 10000) setup=(scheduler = (SimpleScheduler(createchain(1000))))

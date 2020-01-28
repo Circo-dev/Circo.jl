@@ -41,7 +41,7 @@ end
 
 (>)(n::Network, path::String) = begin
  n | input -> begin
-          if input != nothing
+          if input !== nothing
               open(path, "a") do file
                  println(file, "$input")
               end

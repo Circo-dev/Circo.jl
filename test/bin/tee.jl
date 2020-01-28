@@ -4,8 +4,15 @@ using Circo
 @testset "tee" begin
     s = mktemp() do path, file
         workflow = SimpleScheduler((x -> 2x) | tee(path) | (y -> y^2))
-        @test workflow(1) == 4
-        @test workflow(5) == 100
+        inputto(workflow, 1)
+        step!(workflow)
+        inputto(workflow, 5)
+        step!(workflow)
+        inputto(workflow, nothing)
+        step!(workflow)
+        @test workflow.computations[end].output == 4
+        step!(workflow)
+        @test workflow.computations[end].output == 100
         @test read(file, String) == "2\n10\n"
     end
 end
