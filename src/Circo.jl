@@ -2,10 +2,7 @@ module Circo
 import Base.|
 
 include("components/index.jl")
-include("Input.jl")
-include("Node.jl")
-include("Network.jl")
-
+include("graph/index.jl")
 include("dsl/index.jl")
 include("formats/index.jl")
 include("bin/index.jl")
