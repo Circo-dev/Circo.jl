@@ -4,7 +4,7 @@ mutable struct DeterministicScheduler <: CooperativeScheduler
   networkdiameter::Int64
   superstep::Int64
   DeterministicScheduler(computations, networkdiameter) =
-    networkdiameter > MAX_NETWORK_DIAMETER ? error("Invalid network diameter: $(networkdiameter), maximum allowed is $(MAX_DIAMETER).") :
+    networkdiameter > MAX_NETWORK_DIAMETER ? error("Invalid network diameter: $(networkdiameter), maximum allowed is $(MAX_NETWORK_DIAMETER).") :
     new(computations, Dict([(c.node.id, c) for c in computations]), networkdiameter, 1)
 end
 
