@@ -14,7 +14,9 @@ export Node, Input, connect, isconnected, inputto, Network, |, hasinput,
     tee, cat,
     
     AbstractScheduler,
+    CooperativeScheduler,
     SimpleScheduler,
+    DeterministicScheduler,
     
     Component, 
     KernelComp, InfraComp, AppComp, WorkerComp,

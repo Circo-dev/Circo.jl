@@ -2,15 +2,21 @@ using Test
 using Circo
 
 @testset "Circo tests" begin
-    @testset "Multi-output connections" begin
+    @testset "Multi-output connections (SimpleScheduler, DeterministicScheduler)" begin
       idnode = Node(x -> x)
       powxnodes = [Node(x -> x^k) for k=1:3]
       map(node -> connect(idnode, node), powxnodes)
       network = Network([idnode, powxnodes...])
-      scheduler = SimpleScheduler(network)
+      simplescheduler = SimpleScheduler(network)
+      deterministicscheduler = DeterministicScheduler(network)
       for i in 1:3
-        scheduler(i)
-        @test map(node -> node.output, scheduler.computations[2:end]) == [i^k for k=1:3]
+        function test(scheduler)
+          @test map(node -> node.output, scheduler.computations[2:end]) == [i^k for k=1:3]
+        end
+        simplescheduler(i)
+        deterministicscheduler(i)
+        test(simplescheduler)
+        test(deterministicscheduler)
       end
   end
 
