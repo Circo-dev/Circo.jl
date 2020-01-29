@@ -20,20 +20,11 @@ end
 
 function step!(scheduler::DeterministicScheduler)
   superstep = scheduler.superstep
-  if length(scheduler.computations) < 10
-    for computation in scheduler.computations
-      step!(computation, superstep)
-    end
-    for computation in scheduler.computations
-      forward_output(computation, scheduler, superstep)
-    end
-  else
-    Threads.@threads for computation in scheduler.computations
-        step!(computation, superstep)
-    end
-    Threads.@threads for computation in scheduler.computations
-      forward_output(computation, scheduler, superstep)
-    end
+  for computation in scheduler.computations
+    step!(computation, superstep)
+  end
+  for computation in scheduler.computations
+    forward_output(computation, scheduler, superstep)
   end
   scheduler.superstep += 1
 end
