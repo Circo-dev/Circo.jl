@@ -9,7 +9,7 @@ using Circo
         @test typeof(idnode) == Node{FunComp{typeof(idfunc)}}
         @test compute(sqrnode.component,42) == 42^2
         @test compute(sqrnode.component, [42]) == [42^2]
-        sourcenode = Node(superstep -> 42)
+        sourcenode = Node(step -> 42)
         @test issource(sourcenode) == true
         connect(idnode, sqrnode)
         @test issource(sqrnode) == false

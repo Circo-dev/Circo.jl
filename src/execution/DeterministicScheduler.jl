@@ -2,7 +2,7 @@ mutable struct DeterministicScheduler <: CooperativeScheduler
   computations::Array{WantlessComputation} #TODO PERF: stabilize element type (multiple arrays if needed)
   computationcache::Dict{NodeId,WantlessComputation}
   networkdiameter::Int64
-  superstep::Int64
+  step::Int64
   DeterministicScheduler(computations, networkdiameter) =
     networkdiameter > MAX_NETWORK_DIAMETER ? error("Invalid network diameter: $(networkdiameter), maximum allowed is $(MAX_NETWORK_DIAMETER).") :
     new(computations, Dict([(c.node.id, c) for c in computations]), networkdiameter, 1)
@@ -19,12 +19,12 @@ function (network::Network)()
 end
 
 function step!(scheduler::DeterministicScheduler)
-  superstep = scheduler.superstep
+  step = scheduler.step
   for computation in scheduler.computations
-    step!(computation, superstep)
+    step!(computation, step)
   end
   for computation in scheduler.computations
-    forward_output(computation, scheduler, superstep)
+    forward_output(computation, scheduler, step)
   end
-  scheduler.superstep += 1
+  scheduler.step += 1
 end

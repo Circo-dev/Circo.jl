@@ -22,9 +22,9 @@ using Circo
 
   @testset "Multi-input connections" begin
       idnode = Node(x -> x)
-      sourcenode1 = Node((superstep -> 42, superstep -> true))
-      sourcenode2 = Node((superstep -> 43, superstep -> true))
-      sourcenode3 = Node((superstep -> 44, superstep -> true))
+      sourcenode1 = Node((step -> 42, step -> true))
+      sourcenode2 = Node((step -> 43, step -> true))
+      sourcenode3 = Node((step -> 44, step -> true))
       connect(sourcenode1, idnode)
       connect(sourcenode2, idnode)
       connect(sourcenode3, idnode)

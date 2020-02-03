@@ -2,9 +2,9 @@ abstract type CooperativeScheduler <: AbstractScheduler end
 
 const MAX_NETWORK_DIAMETER = 100_000
 
-function forward_output(c::WantlessComputation, scheduler::CooperativeScheduler, superstep::Int64)
+function forward_output(c::WantlessComputation, scheduler::CooperativeScheduler, step::Int64)
   for target in c.node.connections
-    inputto(scheduler.computationcache[target.id], Input(c.output, c.node.id, superstep))
+    inputto(scheduler.computationcache[target.id], Input(c.output, c.node.id, step))
   end
   return nothing
 end
@@ -17,7 +17,7 @@ function (scheduler::CooperativeScheduler)(data;rollout=true)
 end
 
 function (scheduler::CooperativeScheduler)(;rollout=true)
-  while hasinput(scheduler.computations[1].node, scheduler.superstep)
+  while hasinput(scheduler.computations[1].node, scheduler.step)
       step!(scheduler)
   end
   rollout && rollout!(scheduler)

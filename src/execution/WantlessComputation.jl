@@ -10,23 +10,23 @@ function inputto(c::WantlessComputation, input::Input)
   c.inputs[slot] = input
 end
 
-function inputto(c::WantlessComputation, data, superstep::Int64)
+function inputto(c::WantlessComputation, data, step::Int64)
   length(c.inputs) > 0 || push!(c.inputs, Input(nothing,0,0))
   slot = 1 # Source node has only one input
-  input = Input(data, 0, superstep)
+  input = Input(data, 0, step)
   c.inputs[slot] = input
 end
 
-function forward_output(c::WantlessComputation, scheduler::AbstractScheduler, superstep::Int64)
+function forward_output(c::WantlessComputation, scheduler::AbstractScheduler, step::Int64)
   return nothing
 end
 
-function step!(c::WantlessComputation, superstep::Int64)
+function step!(c::WantlessComputation, step::Int64)
   inputlength = length(c.inputs)
   try
     if inputlength == 0
-        if hasinput(c.node, superstep)
-          c.output = compute(c.node.component, superstep)
+        if hasinput(c.node, step)
+          c.output = compute(c.node.component, step)
         else
           c.output = nothing
         end
@@ -41,11 +41,11 @@ function step!(c::WantlessComputation, superstep::Int64)
   return nothing
 end
 
-function step_forward_output!(c::WantlessComputation, scheduler::AbstractScheduler, superstep::Int64)
-  step!(c, superstep)
-  forward_output(c, scheduler, superstep)
+function step_forward_output!(c::WantlessComputation, scheduler::AbstractScheduler, step::Int64)
+  step!(c, step)
+  forward_output(c, scheduler, step)
 end
 
 function inputto(scheduler::AbstractScheduler, data)
-  inputto(scheduler.computations[1], data, scheduler.superstep)
+  inputto(scheduler.computations[1], data, scheduler.step)
 end

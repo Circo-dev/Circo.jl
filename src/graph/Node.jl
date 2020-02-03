@@ -13,8 +13,8 @@ mutable struct Node{C}
     Node(comp) = new{typeof(comp)}(rand(UInt64), Vector(), IdDict(), Set(), comp, nothing)
 end
 
-function hasinput(node::Node, superstep::Int64)
-    node.hasinput !== nothing && node.hasinput(superstep)
+function hasinput(node::Node, step::Int64)
+    node.hasinput !== nothing && node.hasinput(step)
 end
 
 function issource(node::Node)
