@@ -20,14 +20,14 @@ end
 function output_disconnected(component::Component, target::ComponentId)
 end
 
-# Management interface
-struct ManagementMessage{BodyType}
+# Actor interface
+struct Message{BodyType}
   sender::ComponentId
   type::String
   body::BodyType
 end
 
-function message_received(component::Component, message::ManagementMessage)::Union{ManagementMessage, Nothing}
+function message_received(component::Component, message::Message)::Union{Message, Nothing}
   sender = message.sender
   body = message.body
   return nothing

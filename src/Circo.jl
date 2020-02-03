@@ -26,7 +26,7 @@ export Node, Input, connect, isconnected, inputto, Network, |, hasinput,
     step_forward_output!,
     rollout!,
 
-    ManagementMessage,
+    Message,
     message_received,
     getstate,
     setstate,
