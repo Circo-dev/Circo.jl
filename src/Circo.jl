@@ -29,10 +29,11 @@ export Node, Input, connect, isconnected, inputto, Network, |, hasinput,
     Message,
     message_received,
     getstate,
-    setstate,
+    setstate!,
 
     connected_inputs,
     connected_outputs,
+    spawn,
 
     FunComp
 end
