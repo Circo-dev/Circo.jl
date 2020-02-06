@@ -1,6 +1,6 @@
 using Circo
 
-struct NoneScheduler <: AbstractScheduler
+struct NoneScheduler <: WantlessScheduler
 end
 
 function iteratedsteps!(computation, scheduler, itercount=1000)
