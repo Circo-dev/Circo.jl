@@ -20,10 +20,19 @@ function output_disconnected(service::ComponentService, component::Component, ta
 # Actor interface
 abstract type AbstractMessage end
 
-sender(m::AbstractMessage) = m.sender::ComponentId
+struct Message{BodyType} <: AbstractMessage
+    senderid::ComponentId
+    targetid::ComponentId
+    body::BodyType
+end
+
+sender(m::AbstractMessage) = m.senderid::ComponentId
+target(m::AbstractMessage) = m.targetid::ComponentId
 body(m::AbstractMessage) = m.body
 
-function message_received(service::ComponentService, component::Component, message::AbstractMessage)::Union{AbstractMessage, Nothing} end
+function onmessage(service, component, message) 
+    println(422)
+end
 
 function getstate(component::Component) end
 

@@ -12,3 +12,7 @@ end
 function set_actor_scheduler!(service::SimpleComponentService, actor_scheduler::SimpleActorScheduler)
     service.actor_scheduler=actor_scheduler
 end
+
+function send(service::SimpleComponentService, message::AbstractMessage)
+    deliver!(service.actor_scheduler, message)
+end

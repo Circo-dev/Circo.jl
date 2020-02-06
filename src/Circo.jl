@@ -19,8 +19,8 @@ function Machine(network::Network)
     return Machine(service)
 end
 
-function (machine::Machine)(data;rollout=true)
-    machine.service.wantless_scheduler(data;rollout=rollout)
+function (machine::Machine)(data;rollout = true)
+    machine.service.wantless_scheduler(data;rollout = rollout)
 end
 
 export Machine,
@@ -34,8 +34,15 @@ export Machine,
     SimpleScheduler,
     DeterministicScheduler,
     
-    Component, 
+    Component,
+    ComponentId, id,
     KernelComp, InfraComp, AppComp, WorkerComp,
+
+    SimpleComponentService,
+    SimpleActorScheduler,
+    deliver!,
+    set_actor_scheduler!,
+
     compute,
     WantlessComputation,
     step!,
@@ -43,13 +50,18 @@ export Machine,
     rollout!,
 
     AbstractMessage,
-    message_received,
+    Message,
+    sender,
+    target,
+    body,
+    onmessage,
     getstate,
     setstate!,
 
     connected_inputs,
     connected_outputs,
     spawn,
+    send,
 
     FunComp
 end

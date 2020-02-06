@@ -16,3 +16,5 @@ Returns an iterator over the ComponentId-s of 'downstream' Components
 function connected_outputs(service::ComponentService, component::Component)::Vector{ComponentId} end
 
 function spawn(service::ComponentService, component::T)::ComponentId where T <: Component end
+
+function send(service::ComponentService, message::AbstractMessage) end
