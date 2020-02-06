@@ -14,7 +14,7 @@ end
 
 function Machine(network::Network)
     service = SimpleComponentService(nothing, nothing)
-    set_actor_scheduler!(service, SimpleActorScheduler(service, network))
+    set_actor_scheduler!(service, SimpleActorScheduler(network, service))
     set_wantless_scheduler!(service, SimpleScheduler(network, service))
     return Machine(service)
 end
@@ -42,7 +42,7 @@ export Machine,
     step_forward_output!,
     rollout!,
 
-    Message,
+    AbstractMessage,
     message_received,
     getstate,
     setstate!,

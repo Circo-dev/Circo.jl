@@ -8,7 +8,7 @@ struct Actor{C<:Component}
 end
 
 mutable struct SimpleActorScheduler <: ActorScheduler
-    service
+    service::ComponentService
     actors::Array{Actor}
     actorcache::Dict{ComponentId,Actor}
     messagequeue::Queue{Actor}
@@ -17,7 +17,7 @@ mutable struct SimpleActorScheduler <: ActorScheduler
     end
 end
 
-SimpleActorScheduler(componentservice::ComponentService, network::Network) = begin
+SimpleActorScheduler(network::Network, componentservice::ComponentService) = begin
     actors = [Actor(node) for node in network.nodes]
     return SimpleActorScheduler(componentservice, actors)
 end
