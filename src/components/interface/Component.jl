@@ -2,6 +2,8 @@ ComponentId = UInt64
 abstract type Component end
 abstract type ComponentService end
 
+id(component::Component) = component.id
+
 # Lifecycle interface
 function mounted(service::ComponentService, component::Component) end
 

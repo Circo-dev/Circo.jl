@@ -10,10 +10,10 @@ end
 mutable struct SimpleActorScheduler <: ActorScheduler
     service
     actors::Array{Actor}
-    actorcache::Dict{NodeId,Actor}
+    actorcache::Dict{ComponentId,Actor}
     messagequeue::Queue{Actor}
     function SimpleActorScheduler(service, actors) 
-        return new(service, actors, Dict([(a.node.id, a) for a in actors]))
+        return new(service, actors, Dict([(id(a.node), a) for a in actors]))
     end
 end
 

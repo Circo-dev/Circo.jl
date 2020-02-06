@@ -4,7 +4,7 @@ const MAX_NETWORK_DIAMETER = 100_000
 
 function forward_output(c::WantlessComputation, scheduler::CooperativeScheduler, step::Int64)
     for target in c.node.connections
-        inputto(scheduler.computationcache[target.id], Input(c.output, c.node.id, step))
+        inputto(scheduler.computationcache[id(target)], Input(c.output, id(c.node), step))
     end
     return nothing
 end
