@@ -1,4 +1,4 @@
-abstract type AbstractScheduler end
+abstract type WantlessScheduler end
 
 include("Input.jl")
 include("WantlessComputation.jl")

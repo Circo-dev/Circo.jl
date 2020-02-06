@@ -1,17 +1,27 @@
 mutable struct SimpleScheduler <: CooperativeScheduler
+  service::Union{ComponentService,Nothing} #TODO parametrize
   computations::Array{WantlessComputation} #TODO PERF: stabilize element type (multiple arrays if needed)
   computationcache::Dict{NodeId,WantlessComputation}
   networkdiameter::Int64
   step::Int64
-  SimpleScheduler(computations, networkdiameter) =
-    networkdiameter > MAX_NETWORK_DIAMETER ? error("Invalid network diameter: $(networkdiameter), maximum allowed is $(MAX_NETWORK_DIAMETER).") :
-    new(computations, Dict([(c.node.id, c) for c in computations]), networkdiameter, 1)
+  function SimpleScheduler(service, computations, networkdiameter) 
+    networkdiameter <= MAX_NETWORK_DIAMETER || error("Invalid network diameter: $(networkdiameter), maximum allowed is $(MAX_NETWORK_DIAMETER).")
+    return new(service, computations, Dict([(c.node.id, c) for c in computations]), networkdiameter, 1)
+  end
 end
 
-SimpleScheduler(network::Network) = begin
+SimpleScheduler(network::Network, componentservice=nothing) = begin
   computations = [WantlessComputation(node) for node in network.nodes]
-  return SimpleScheduler(computations, diameter(network))
+  return SimpleScheduler(componentservice, computations, diameter(network))
 end
+
+function addcomputation()
+end
+
+#function spawn(service::SimpleComponentService, component::Component)::ComponentId
+#  scheduler(service).
+#end
+
 
 function step!(scheduler::SimpleScheduler)
   step = scheduler.step

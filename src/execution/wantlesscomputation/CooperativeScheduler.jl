@@ -1,4 +1,4 @@
-abstract type CooperativeScheduler <: AbstractScheduler end
+abstract type CooperativeScheduler <: WantlessScheduler end
 
 const MAX_NETWORK_DIAMETER = 100_000
 

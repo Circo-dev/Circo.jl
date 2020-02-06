@@ -17,7 +17,7 @@ function inputto(c::WantlessComputation, data, step::Int64)
   c.inputs[slot] = input
 end
 
-function forward_output(c::WantlessComputation, scheduler::AbstractScheduler, step::Int64)
+function forward_output(c::WantlessComputation, scheduler::WantlessScheduler, step::Int64)
   return nothing
 end
 
@@ -41,11 +41,11 @@ function step!(c::WantlessComputation, step::Int64)
   return nothing
 end
 
-function step_forward_output!(c::WantlessComputation, scheduler::AbstractScheduler, step::Int64)
+function step_forward_output!(c::WantlessComputation, scheduler::WantlessScheduler, step::Int64)
   step!(c, step)
   forward_output(c, scheduler, step)
 end
 
-function inputto(scheduler::AbstractScheduler, data)
+function inputto(scheduler::WantlessScheduler, data)
   inputto(scheduler.computations[1], data, scheduler.step)
 end

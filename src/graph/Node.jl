@@ -1,7 +1,7 @@
 NodeId = UInt64
 SourceFunction = Tuple{Function, Function}
 
-mutable struct Node{C}
+mutable struct Node{C<:Component}
     id::NodeId
     inputs::Vector{NodeId}
     inputmap::Dict{NodeId, UInt} # source => input idx

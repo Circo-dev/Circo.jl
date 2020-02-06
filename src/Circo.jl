@@ -6,14 +6,30 @@ include("graph/index.jl")
 include("dsl/index.jl")
 include("formats/index.jl")
 include("bin/index.jl")
-include("execution/index.jl")
+include("execution/executionindex.jl")
 
-export Node, Input, connect, isconnected, inputto, Network, |, hasinput,
+struct Machine
+    service::SimpleComponentService
+end
+
+function Machine(network::Network)
+    service = SimpleComponentService(nothing, nothing)
+    set_actor_scheduler!(service, SimpleActorScheduler(service, network))
+    set_wantless_scheduler!(service, SimpleScheduler(network, service))
+    return Machine(service)
+end
+
+function (machine::Machine)(data;rollout=true)
+    machine.service.wantless_scheduler(data;rollout=rollout)
+end
+
+export Machine,
+    Node, Input, connect, isconnected, inputto, Network, |, hasinput,
     issource,
     
     tee, cat,
     
-    AbstractScheduler,
+    WantlessScheduler,
     CooperativeScheduler,
     SimpleScheduler,
     DeterministicScheduler,
