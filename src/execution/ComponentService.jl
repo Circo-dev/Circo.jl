@@ -16,3 +16,7 @@ end
 function send(service::SimpleComponentService, message::AbstractMessage)
     deliver!(service.actor_scheduler, message)
 end
+
+function spawn(service::SimpleComponentService, component::Component)::ComponentId
+    schedule!(service.actor_scheduler, component)
+end

@@ -35,6 +35,13 @@ function deliver!(scheduler::SimpleActorScheduler, message::AbstractMessage)
     enqueue!(scheduler.messagequeue, message)
 end
 
+function schedule!(scheduler::SimpleActorScheduler, component::Component)::ComponentId
+    actor = Actor(component)
+    scheduler.actorcache[id(actor)] = actor
+    push!(scheduler.actors, actor)
+    return id(actor)
+end
+
 function step!(scheduler::SimpleActorScheduler)
     message = dequeue!(scheduler.messagequeue)
     t = target(message)
