@@ -26,14 +26,14 @@ end
 export Machine,
     Node, Input, connect, isconnected, inputto, Network, |, hasinput,
     issource,
-    
+
     tee, cat,
-    
+
     WantlessScheduler,
     CooperativeScheduler,
     SimpleScheduler,
     DeterministicScheduler,
-    
+
     Component,
     ComponentId, id,
     KernelComp, InfraComp, AppComp, WorkerComp,
@@ -51,6 +51,7 @@ export Machine,
 
     AbstractMessage,
     Message,
+    NothingMessage,
     sender,
     target,
     body,
