@@ -26,13 +26,13 @@ struct Message{BodyType} <: AbstractMessage
     body::BodyType
 end
 
+NothingMessage = Message{Nothing}
+
 sender(m::AbstractMessage) = m.senderid::ComponentId
 target(m::AbstractMessage) = m.targetid::ComponentId
 body(m::AbstractMessage) = m.body
 
-function onmessage(service, component, message) 
-    println(422)
-end
+function onmessage(service, component, message) end
 
 function getstate(component::Component) end
 

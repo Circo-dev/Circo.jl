@@ -31,14 +31,16 @@ function onmessage(service::SimpleComponentService, component::Producer, message
 end
 
 @testset "Actor" begin
-    producer = Producer()
-    consumer = Consumer(id(producer), 3)
-    firstrequest = Request(id(consumer), id(producer), nothing)
-    service = SimpleComponentService(nothing, nothing)
-    scheduler = SimpleActorScheduler([producer, consumer], service)
-    set_actor_scheduler!(service, scheduler)
-    deliver!(scheduler, firstrequest)
-    scheduler()
-    @test consumer.messages_left == 0
-    @test consumer.sum == 3 * 42
+    @testset "Producer-Consumer" begin
+        producer = Producer()
+        consumer = Consumer(id(producer), 3)
+        firstrequest = Request(id(consumer), id(producer), nothing)
+        service = SimpleComponentService(nothing, nothing)
+        scheduler = SimpleActorScheduler([producer, consumer], service)
+        set_actor_scheduler!(service, scheduler)
+        deliver!(scheduler, firstrequest)
+        scheduler()
+        @test consumer.messages_left == 0
+        @test consumer.sum == 3 * 42
+    end
 end

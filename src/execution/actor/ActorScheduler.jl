@@ -16,7 +16,7 @@ mutable struct SimpleActorScheduler <: ActorScheduler
     actors::Array{Actor}
     actorcache::Dict{ComponentId,Actor}
     messagequeue::Queue{AbstractMessage}
-    function SimpleActorScheduler(actors, service::ComponentService) 
+    function SimpleActorScheduler(actors, service::ComponentService)
         return new(service, actors, Dict([(id(a), a) for a in actors]), Queue{AbstractMessage}())
     end
 end
@@ -35,6 +35,13 @@ function deliver!(scheduler::SimpleActorScheduler, message::AbstractMessage)
     enqueue!(scheduler.messagequeue, message)
 end
 
+function schedule!(scheduler::SimpleActorScheduler, component::Component)::ComponentId
+    actor = Actor(component)
+    scheduler.actorcache[id(actor)] = actor
+    push!(scheduler.actors, actor)
+    return id(actor)
+end
+
 function step!(scheduler::SimpleActorScheduler)
     message = dequeue!(scheduler.messagequeue)
     t = target(message)
@@ -43,7 +50,7 @@ function step!(scheduler::SimpleActorScheduler)
 end
 
 function (scheduler::SimpleActorScheduler)(message::AbstractMessage)
-    enqueue!(scheduler, message)
+    deliver!(scheduler, message)
     scheduler()
 end
 
