@@ -44,14 +44,12 @@ end
 
 @testset "Actor" begin
     @testset "Actor-Tree" begin
-        service = SimpleComponentService(nothing, nothing)
-        scheduler = SimpleActorScheduler([], service)
-        set_actor_scheduler!(service, scheduler)
+        machine = Machine()
         creator = TreeCreator()
-        spawn(service, creator)
-        startrequest = Start(0, id(creator), nothing)
+        spawn(machine, creator)
+        startrequest = Start(0, id(creator))
         for i in 1:10
-            scheduler(startrequest)
+            machine(startrequest)
             @test creator.responsecount == 2^i - 1
         end
     end
