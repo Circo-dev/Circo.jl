@@ -8,7 +8,9 @@ include("formats/index.jl")
 include("bin/index.jl")
 include("execution/executionindex.jl")
 
-struct Machine
+abstract type AbstractMachine end
+
+struct Machine <: AbstractMachine
     service::SimpleComponentService
 end
 
@@ -19,11 +21,19 @@ function Machine(network::Network)
     return Machine(service)
 end
 
-function (machine::Machine)(data;rollout = true)
-    machine.service.wantless_scheduler(data;rollout = rollout)
+Machine() = Machine(Network([]))
+service(machine::AbstractMachine) = machine.service
+spawn(machine::AbstractMachine, component::Component)::ComponentId = spawn(service(machine), component)
+
+function (machine::AbstractMachine)(data;rollout = true)
+    service(machine).wantless_scheduler(data;rollout = rollout)
 end
 
-export Machine,
+function (machine::AbstractMachine)(message::AbstractMessage)
+    service(machine).actor_scheduler(message)
+end
+
+export Machine, service,
     Node, Input, connect, isconnected, inputto, Network, |, hasinput,
     issource,
 

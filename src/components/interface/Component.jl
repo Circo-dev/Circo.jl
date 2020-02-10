@@ -25,12 +25,15 @@ struct Message{BodyType} <: AbstractMessage
     targetid::ComponentId
     body::BodyType
 end
-
-NothingMessage = Message{Nothing}
-
 sender(m::AbstractMessage) = m.senderid::ComponentId
 target(m::AbstractMessage) = m.targetid::ComponentId
 body(m::AbstractMessage) = m.body
+
+struct NothingMessage <: AbstractMessage # As of julia 1.3 and my understanding, Message{Nothing} does not allow creating the outer constructor NothingMessage(senderid, targetid)
+    senderid::ComponentId
+    targetid::ComponentId
+end
+body(m::NothingMessage) = nothing
 
 function onmessage(service, component, message) end
 
