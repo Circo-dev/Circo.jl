@@ -6,10 +6,9 @@ GrowRequest = Message{ComponentId}
 GrowResponse = Message{Vector{ComponentId}}
 Start = NothingMessage
 
-mutable struct TreeActor <: Component
-    id::ComponentId
+@component mutable struct TreeActor
     children::Vector{ComponentId}
-    TreeActor() = new(rand(ComponentId), [])
+    TreeActor() = new([])
 end
 
 function onmessage(service, me::TreeActor, message::GrowRequest)
@@ -24,11 +23,10 @@ function onmessage(service, me::TreeActor, message::GrowRequest)
     end
 end
 
-mutable struct TreeCreator <: Component
-    id::ComponentId
+@component mutable struct TreeCreator
     nodecount::UInt64
     root::ComponentId
-    TreeCreator() = new(rand(ComponentId), 0, 0)
+    TreeCreator() = new(0, 0)
 end
 
 function onmessage(service, me::TreeCreator, message::Start)

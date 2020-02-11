@@ -46,6 +46,7 @@ export Machine, service,
 
     Component,
     ComponentId, id,
+    @component,
     KernelComp, InfraComp, AppComp, WorkerComp,
 
     SimpleComponentService,
