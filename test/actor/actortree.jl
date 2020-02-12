@@ -44,12 +44,10 @@ end
 
 @testset "Actor" begin
     @testset "Actor-Tree" begin
-        machine = Machine()
         creator = TreeCreator()
-        spawn(machine, creator)
-        startrequest = Start(0, id(creator))
+        machine = Machine(creator)
         for i in 1:10
-            machine(startrequest)
+            machine(Start())
             @test creator.responsecount == 2^i - 1
         end
     end
