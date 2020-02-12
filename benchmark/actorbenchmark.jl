@@ -17,25 +17,24 @@ struct Producer <: Component
     Producer() = new(rand(UInt64))
 end
 
-function onmessage(message::Response, consumer::Consumer, service::SimpleComponentService)
+function onmessage(message::Response, consumer::Consumer, service)
     consumer.messages_left -= 1
     if consumer.messages_left > 0
         send(service, Request(id(consumer), consumer.producerId, nothing))
     end
 end
 
-function onmessage(message::Request, component::Producer, service::SimpleComponentService)
+function onmessage(message::Request, component::Producer, service)
     send(service, Response(id(component), sender(message), 42))
 end
 
 function initscheduler(rounds)
     producer = Producer()
     consumer = Consumer(id(producer), rounds)
-    firstrequest = Request(id(consumer), id(producer), nothing)
-    service = SimpleComponentService(nothing, nothing)
-    scheduler = SimpleActorScheduler([producer, consumer], service)
-    set_actor_scheduler!(service, scheduler)
-    deliver!(scheduler, firstrequest)
+    machine = Machine(producer)
+    spawn(machine, consumer)
+    scheduler = service(machine).actor_scheduler
+    deliver!(scheduler, Request(consumer, id(producer)))
     return scheduler
 end
 

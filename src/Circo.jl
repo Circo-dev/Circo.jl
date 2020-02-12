@@ -65,7 +65,7 @@ export Machine, service,
     @component,
     KernelComp, InfraComp, AppComp, WorkerComp,
 
-    SimpleComponentService,
+    ComponentService,
     SimpleActorScheduler,
     deliver!,
     set_actor_scheduler!,

@@ -25,7 +25,7 @@ function onmessage(message::Response, consumer::Consumer, service)
     end
 end
 
-function onmessage(message::Request, component::Producer, service::SimpleComponentService,)
+function onmessage(message::Request, component::Producer, service::ComponentService)
     send(service, Response(id(component), sender(message), 42))
 end
 
