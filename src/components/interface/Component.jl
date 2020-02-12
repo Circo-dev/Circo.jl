@@ -34,7 +34,7 @@ Message{Nothing}() = Message{Nothing}(0, 0)
 sender(m::AbstractMessage) = m.senderid::ComponentId
 target(m::AbstractMessage) = m.targetid::ComponentId
 body(m::AbstractMessage) = m.body 
-forward(m::AbstractMessage, target::ComponentId) = (typeof(m))(sender(m), target, body(m))
+redirect(m::AbstractMessage, to::ComponentId) = (typeof(m))(target(m), to, body(m))
 
 function onmessage(service, component, message) end
 

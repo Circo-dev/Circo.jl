@@ -15,10 +15,10 @@ function onmessage(service, me::TreeActor, message::GrowRequest)
     if length(me.children) == 0
         push!(me.children, spawn(service, TreeActor()))
         push!(me.children, spawn(service, TreeActor()))
-        send(service, GrowResponse(me, message.body, me.children))
+        send(service, GrowResponse(me, body(message), me.children))
     else
         for child in me.children
-            send(service, GrowRequest(me, child, message.body))
+            send(service, redirect(message, child))
         end
     end
 end
@@ -29,7 +29,7 @@ end
     TreeCreator() = new(0, 0)
 end
 
-function onmessage(service, me::TreeCreator, message::Start)
+function onmessage(service, me::TreeCreator, ::Start)
     if me.root == 0
         me.root = spawn(service, TreeActor())
         me.nodecount = 1

@@ -44,7 +44,7 @@ end
 
 function (machine::AbstractMachine)(message::AbstractMessage)
     if target(message) == 0
-        message = forward(message, machine.firstcomponent)
+        message = redirect(message, machine.firstcomponent)
     end
     service(machine).actor_scheduler(message)
 end
@@ -81,6 +81,7 @@ export Machine, service,
     sender,
     target,
     body,
+    redirect,
     onmessage,
     getstate,
     setstate!,
