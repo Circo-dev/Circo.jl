@@ -78,7 +78,6 @@ export Machine, service,
 
     AbstractMessage,
     Message,
-    NothingMessage,
     sender,
     target,
     body,
