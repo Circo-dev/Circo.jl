@@ -17,14 +17,14 @@ struct Producer <: Component
     Producer() = new(rand(UInt64))
 end
 
-function onmessage(service, consumer::Consumer, message)
+function onmessage(message::Response, consumer::Consumer, service::SimpleComponentService)
     consumer.messages_left -= 1
     if consumer.messages_left > 0
         send(service, Request(id(consumer), consumer.producerId, nothing))
     end
 end
 
-function onmessage(service::SimpleComponentService, component::Producer, message::Message)
+function onmessage(message::Request, component::Producer, service::SimpleComponentService)
     send(service, Response(id(component), sender(message), 42))
 end
 

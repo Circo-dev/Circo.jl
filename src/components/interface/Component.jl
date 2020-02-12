@@ -36,7 +36,7 @@ target(m::AbstractMessage) = m.targetid::ComponentId
 body(m::AbstractMessage) = m.body 
 redirect(m::AbstractMessage, to::ComponentId) = (typeof(m))(target(m), to, body(m))
 
-function onmessage(service, component, message) end
+function onmessage(message, component, service) end
 
 function getstate(component::Component) end
 
