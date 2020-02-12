@@ -26,7 +26,7 @@ end
 
 mutable struct TreeCreator <: Component
     id::ComponentId
-    responsecount::UInt64
+    nodecount::UInt64
     root::ComponentId
     TreeCreator() = new(rand(ComponentId), 0, 0)
 end
@@ -34,12 +34,13 @@ end
 function onmessage(service, me::TreeCreator, message::Start)
     if me.root == 0
         me.root = spawn(service, TreeActor())
+        me.nodecount = 1
     end
     send(service, GrowRequest(id(me), me.root, id(me)))
 end
 
 function onmessage(service, me::TreeCreator, message::GrowResponse)
-    me.responsecount += 1
+    me.nodecount += length(body(message))
 end
 
 @testset "Actor" begin
@@ -48,7 +49,7 @@ end
         machine = Machine(creator)
         for i in 1:10
             machine(Start())
-            @test creator.responsecount == 2^i - 1
+            @test creator.nodecount == 2^(i+1) - 1
         end
     end
 end
