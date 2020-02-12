@@ -43,11 +43,10 @@ end
 
 @testset "Actor" begin
     @testset "Actor-Tree" begin
-        machine = Machine()
         creator = TreeCreator()
-        spawn(machine, creator)
+        machine = Machine(creator)
         for i in 1:10
-            machine(Start(0, id(creator)))
+            machine(Start())
             @test creator.nodecount == 2^(i+1) - 1
         end
     end

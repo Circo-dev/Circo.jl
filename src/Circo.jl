@@ -10,8 +10,10 @@ include("execution/executionindex.jl")
 
 abstract type AbstractMachine end
 
-struct Machine <: AbstractMachine
+mutable struct Machine <: AbstractMachine
     service::SimpleComponentService
+    firstcomponent::ComponentId
+    Machine(service) = new(service, 0)
 end
 
 function Machine(network::Network)
@@ -22,14 +24,28 @@ function Machine(network::Network)
 end
 
 Machine() = Machine(Network([]))
+function Machine(firstcomponent::Component) 
+    machine = Machine()
+    spawn(machine, firstcomponent)
+    return machine
+end
+
 service(machine::AbstractMachine) = machine.service
-spawn(machine::AbstractMachine, component::Component)::ComponentId = spawn(service(machine), component)
+spawn(machine::AbstractMachine, component::Component)::ComponentId = begin
+    if machine.firstcomponent == 0
+        machine.firstcomponent = id(component)
+    end
+    spawn(service(machine), component)
+end
 
 function (machine::AbstractMachine)(data;rollout = true)
     service(machine).wantless_scheduler(data;rollout = rollout)
 end
 
 function (machine::AbstractMachine)(message::AbstractMessage)
+    if target(message) == 0
+        message = forward(message, machine.firstcomponent)
+    end
     service(machine).actor_scheduler(message)
 end
 
