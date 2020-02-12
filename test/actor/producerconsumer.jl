@@ -17,16 +17,16 @@ struct Producer <: Component
     Producer() = new(rand(UInt64))
 end
 
-function onmessage(message::Response, consumer::Consumer, service)
-    consumer.messages_left -= 1
-    consumer.sum += body(message)
-    if consumer.messages_left > 0
-        send(service, Request(id(consumer), consumer.producerId, nothing))
+function onmessage(me::Consumer, message::Response, service)
+    me.messages_left -= 1
+    me.sum += body(message)
+    if me.messages_left > 0
+        send(service, Request(me, me.producerId, nothing))
     end
 end
 
-function onmessage(message::Request, component::Producer, service::ComponentService)
-    send(service, Response(id(component), sender(message), 42))
+function onmessage(me::Producer, message::Request, service::ComponentService)
+    send(service, Response(me, sender(message), 42))
 end
 
 @testset "Actor" begin

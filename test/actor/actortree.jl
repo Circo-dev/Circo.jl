@@ -11,7 +11,7 @@ Start = Message{Nothing}
     TreeActor() = new([])
 end
 
-function onmessage(message::GrowRequest, me::TreeActor, service)
+function onmessage(me::TreeActor, message::GrowRequest, service)
     if length(me.children) == 0
         push!(me.children, spawn(service, TreeActor()))
         push!(me.children, spawn(service, TreeActor()))
@@ -29,7 +29,7 @@ end
     TreeCreator() = new(0, 0)
 end
 
-function onmessage(::Start, me::TreeCreator, service)
+function onmessage(me::TreeCreator, ::Start, service)
     if me.root == 0
         me.root = spawn(service, TreeActor())
         me.nodecount = 1
@@ -37,7 +37,7 @@ function onmessage(::Start, me::TreeCreator, service)
     send(service, GrowRequest(me, me.root, id(me)))
 end
 
-function onmessage(message::GrowResponse, me::TreeCreator, service)
+function onmessage(me::TreeCreator, message::GrowResponse, service)
     me.nodecount += length(body(message))
 end
 

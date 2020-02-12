@@ -17,15 +17,15 @@ struct Producer <: Component
     Producer() = new(rand(UInt64))
 end
 
-function onmessage(message::Response, consumer::Consumer, service)
-    consumer.messages_left -= 1
-    if consumer.messages_left > 0
-        send(service, Request(id(consumer), consumer.producerId, nothing))
+function onmessage(me::Consumer, message::Response, service)
+    me.messages_left -= 1
+    if me.messages_left > 0
+        send(service, Request(me, me.producerId))
     end
 end
 
-function onmessage(message::Request, component::Producer, service)
-    send(service, Response(id(component), sender(message), 42))
+function onmessage(me::Producer, message::Request, service)
+    send(service, Response(me, sender(message), 42))
 end
 
 function initscheduler(rounds)
