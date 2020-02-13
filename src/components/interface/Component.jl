@@ -27,11 +27,16 @@ struct Message{BodyType} <: AbstractMessage
 end
 sender(m::AbstractMessage) = m.senderid::ComponentId
 target(m::AbstractMessage) = m.targetid::ComponentId
-body(m::AbstractMessage) = m.body
+body(m::AbstractMessage) = m.body 
+forward(m::AbstractMessage, target::ComponentId) = (typeof(m))(sender(m), target, body(m))
 
 struct NothingMessage <: AbstractMessage # As of julia 1.3 and my understanding, Message{Nothing} does not allow creating the outer constructor NothingMessage(senderid, targetid)
     senderid::ComponentId
     targetid::ComponentId
+    NothingMessage(senderid, targetid, droppedbody) = new(senderid, targetid)
+    NothingMessage(senderid, targetid) = new(senderid, targetid)
+    NothingMessage(targetid) = new(0, targetid)
+    NothingMessage() = new(0, 0)
 end
 body(m::NothingMessage) = nothing
 
