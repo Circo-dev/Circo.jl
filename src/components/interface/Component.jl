@@ -25,22 +25,18 @@ struct Message{BodyType} <: AbstractMessage
     targetid::ComponentId
     body::BodyType
 end
+Message{T}(sender::Component, targetid:: ComponentId, body::T) where {T} = Message{T}(id(sender), targetid, body)
+Message(sender::Component, targetid:: ComponentId, body::T) where {T} = Message{T}(id(sender), targetid, body)
+Message{Nothing}(senderid, targetid) = Message{Nothing}(senderid, targetid, nothing)
+Message{Nothing}(targetid) = Message{Nothing}(0, targetid)
+Message{Nothing}() = Message{Nothing}(0, 0)
+
 sender(m::AbstractMessage) = m.senderid::ComponentId
 target(m::AbstractMessage) = m.targetid::ComponentId
 body(m::AbstractMessage) = m.body 
-forward(m::AbstractMessage, target::ComponentId) = (typeof(m))(sender(m), target, body(m))
+redirect(m::AbstractMessage, to::ComponentId) = (typeof(m))(target(m), to, body(m))
 
-struct NothingMessage <: AbstractMessage # As of julia 1.3 and my understanding, Message{Nothing} does not allow creating the outer constructor NothingMessage(senderid, targetid)
-    senderid::ComponentId
-    targetid::ComponentId
-    NothingMessage(senderid, targetid, droppedbody) = new(senderid, targetid)
-    NothingMessage(senderid, targetid) = new(senderid, targetid)
-    NothingMessage(targetid) = new(0, targetid)
-    NothingMessage() = new(0, 0)
-end
-body(m::NothingMessage) = nothing
-
-function onmessage(service, component, message) end
+function onmessage(component, message, service) end
 
 function getstate(component::Component) end
 

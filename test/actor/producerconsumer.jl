@@ -5,12 +5,11 @@ import Circo.onmessage
 Request = Message{Nothing}
 Response = Message{Int64}
 
-mutable struct Consumer <: Component
-    id::ComponentId
+@component mutable struct Consumer
     producerId::ComponentId
     messages_left::Int64
     sum::Int64
-    Consumer(producerId, message_count) = new(rand(ComponentId), producerId, message_count, 0)
+    Consumer(producerId, message_count) = new(producerId, message_count, 0)
 end
 
 struct Producer <: Component
@@ -18,28 +17,26 @@ struct Producer <: Component
     Producer() = new(rand(UInt64))
 end
 
-function onmessage(service, consumer::Consumer, message)
-    consumer.messages_left -= 1
-    consumer.sum += body(message)
-    if consumer.messages_left > 0
-        send(service, Request(id(consumer), consumer.producerId, nothing))
+function onmessage(me::Consumer, message::Response, service)
+    me.messages_left -= 1
+    me.sum += body(message)
+    if me.messages_left > 0
+        send(service, Request(me, me.producerId, nothing))
     end
 end
 
-function onmessage(service::SimpleComponentService, component::Producer, message::Message)
-    send(service, Response(id(component), sender(message), 42))
+function onmessage(me::Producer, message::Request, service::ComponentService)
+    send(service, Response(me, sender(message), 42))
 end
 
 @testset "Actor" begin
     @testset "Producer-Consumer" begin
         producer = Producer()
         consumer = Consumer(id(producer), 3)
-        firstrequest = Request(id(consumer), id(producer), nothing)
-        service = SimpleComponentService(nothing, nothing)
-        scheduler = SimpleActorScheduler([producer, consumer], service)
-        set_actor_scheduler!(service, scheduler)
-        deliver!(scheduler, firstrequest)
-        scheduler()
+        firstrequest = Request(consumer, id(producer))
+        machine = Machine(producer)
+        spawn(machine, consumer)
+        machine(firstrequest)
         @test consumer.messages_left == 0
         @test consumer.sum == 3 * 42
     end

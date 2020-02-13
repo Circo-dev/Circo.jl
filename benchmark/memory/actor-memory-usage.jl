@@ -15,7 +15,7 @@ mutable struct SimpleActor <: Component
     SimpleActor() = new(rand(ComponentId))
 end
 
-function onmessage(service, me::SimpleActor, message::Message{String})
+function onmessage(me::SimpleActor, message::Message{String}, service)
     println("Actor #$(id(me)) got message $(body(message))")
 end
 

@@ -44,7 +44,7 @@ end
 
 function (machine::AbstractMachine)(message::AbstractMessage)
     if target(message) == 0
-        message = forward(message, machine.firstcomponent)
+        message = redirect(message, machine.firstcomponent)
     end
     service(machine).actor_scheduler(message)
 end
@@ -62,9 +62,10 @@ export Machine, service,
 
     Component,
     ComponentId, id,
+    @component,
     KernelComp, InfraComp, AppComp, WorkerComp,
 
-    SimpleComponentService,
+    ComponentService,
     SimpleActorScheduler,
     deliver!,
     set_actor_scheduler!,
@@ -77,10 +78,10 @@ export Machine, service,
 
     AbstractMessage,
     Message,
-    NothingMessage,
     sender,
     target,
     body,
+    redirect,
     onmessage,
     getstate,
     setstate!,
