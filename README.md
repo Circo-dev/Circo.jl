@@ -9,7 +9,7 @@ Circo achives this by integrating an [Actor](https://en.wikipedia.org/wiki/Actor
 
 Components can send messages to each other, spawn new components and self-organize into a computing graph resembling a neural network. Components are "grounded" to a 3D space, their position is optimized to minimize approximated communication overhead.
 
-Circo systems typically build themself from a single spawn and their structure responds dynamically to changes of the environment, e.g. they grow new components where load is high while unneeded components die. This dynamics can be described using a high level graph grammar or by hand as in the following example:
+Circo systems typically build themself from a single spawn and their structure responds dynamically to changes of the environment, e.g. they grow new components where load is high, while unneeded components die. This dynamics can be described using a biology-inspired graph grammar (not yet fully designed) or by hand as in the following (already working) example:
 
 ```julia
 # This test builds a binary tree of actors, growing a new level for every
