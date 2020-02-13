@@ -1,3 +1,8 @@
+# This test builds a binary tree of actors, growing a new level for every
+# Start() message received by the original spawn (the TreeCreator).
+# The growth of every leaf is reported back by its parent to the
+# TreeCreator, which counts the nodes in the tree.
+
 using Test
 using Circo
 import Circo.onmessage
@@ -46,7 +51,7 @@ end
         creator = TreeCreator()
         machine = Machine(creator)
         for i in 1:10
-            machine(Start())
+            machine(Start()) # The Start signal will be delivered to creator, the firstly spawned component
             @test creator.nodecount == 2^(i+1)-1
         end
     end
