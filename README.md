@@ -1,7 +1,7 @@
 # Circo.jl
 [![Build Status](https://travis-ci.com/tisztamo/Circo.jl.svg?branch=master)](https://travis-ci.com/tisztamo/Circo.jl)
 
-*WARNING: Circo is in its infancy, the following description will be true for v0.1, planned to be released in Q2 2020.*
+*WARNING: Circo is in its infancy, the following description will be true for v0.5, planned to be released in Q2 2020.*
 
 Circo is a distributed computing platform, designed to scale to millions of nodes while providing metaphoric abstractions that help the programmer reason about such a complex system.
 
