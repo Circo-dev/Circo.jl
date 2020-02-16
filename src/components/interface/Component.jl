@@ -1,3 +1,8 @@
+"""
+    ComponentId = UInt64
+
+Type of component ids. The id is unique per [`Machine`](@ref)
+"""
 ComponentId = UInt64
 abstract type Component end
 abstract type ComponentService end

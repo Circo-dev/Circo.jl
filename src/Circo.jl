@@ -10,6 +10,9 @@ include("execution/executionindex.jl")
 
 abstract type AbstractMachine end
 
+"""
+Act as your interface to a whole distributed component system.
+"""
 mutable struct Machine <: AbstractMachine
     service::SimpleComponentService
     firstcomponent::ComponentId

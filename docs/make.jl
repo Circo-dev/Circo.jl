@@ -2,6 +2,9 @@ using Documenter, Circo
 
 makedocs(sitename = "Circo Documentation",
   pages = [
-  "index.md",
-  "Design" => "design.md"
+  "intro.md",
+  "gettingstarted.md",
+  "reference.md",
+  "Design" => "design.md",
+  "contribution.md"
 ])
