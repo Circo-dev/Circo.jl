@@ -81,6 +81,7 @@ export Machine, service,
 
     AbstractMessage,
     Message,
+    @message,
     sender,
     target,
     body,

@@ -7,9 +7,13 @@ using Test
 using Circo
 import Circo.onmessage
 
-GrowRequest = Message{ComponentId}
-GrowResponse = Message{Vector{ComponentId}}
-Start = Message{Nothing}
+@message Start
+@message GrowRequest{ComponentId}
+
+struct GrowResponseBody
+    leafsgrown::Vector{ComponentId}
+end
+@message GrowResponse{GrowResponseBody}
 
 @component mutable struct TreeActor
     children::Vector{ComponentId}
@@ -20,7 +24,7 @@ function onmessage(me::TreeActor, message::GrowRequest, service)
     if length(me.children) == 0
         push!(me.children, spawn(service, TreeActor()))
         push!(me.children, spawn(service, TreeActor()))
-        send(service, GrowResponse(me, body(message), me.children))
+        send(service, GrowResponse(me, body(message), GrowResponseBody(me.children)))
     else
         for child in me.children
             send(service, redirect(message, child))
@@ -43,7 +47,7 @@ function onmessage(me::TreeCreator, ::Start, service)
 end
 
 function onmessage(me::TreeCreator, message::GrowResponse, service)
-    me.nodecount += length(body(message))
+    me.nodecount += length(body(message).leafsgrown)
 end
 
 @testset "Actor" begin
