@@ -33,7 +33,7 @@ Start = Message{Nothing}
 end
 ```
 
-Messages that components can send to each other are typed. The `@component` macro is a simple helper to generate the required fields and mark the component as subtype of `Component`.
+Messages that components can send to each other are typed. The `@component` macro is a simple helper to generate the required fields and mark the component as subtype of `Component` (You can do this by hand). 
 
 ```julia
 function onmessage(me::TreeActor, message::GrowRequest, service)
