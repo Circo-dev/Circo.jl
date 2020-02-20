@@ -44,8 +44,6 @@ end
 
 function step!(scheduler::SimpleActorScheduler)
     message = dequeue!(scheduler.messagequeue)
-    t = target(message)
-    c = scheduler.actorcache[t].component
     onmessage(scheduler.actorcache[target(message)].component, message, scheduler.service)
 end
 
