@@ -54,8 +54,8 @@ end
     @testset "Actor-Tree" begin
         creator = TreeCreator()
         machine = Machine(creator)
-        for i in 1:10
-            machine(Start()) # The Start signal will be delivered to creator, the firstly spawned component
+        for i in 1:12
+            @time machine(Start()) # The Start signal will be delivered to creator, the firstly spawned component
             @test creator.nodecount == 2^(i+1)-1
         end
     end
