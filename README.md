@@ -5,7 +5,7 @@
 
 Circo is a distributed computing platform, designed to scale to millions of nodes while providing metaphoric abstractions that help the programmer reason about such a complex system.
 
-Circo achives this by integrating an [Actor](https://en.wikipedia.org/wiki/Actor_model) model with a loosened [Bulk synchronous parallel](https://en.wikipedia.org/wiki/Bulk_synchronous_parallel) model into a component system that is driven by a distributed microkernel.
+Circo achieves this by integrating an [Actor](https://en.wikipedia.org/wiki/Actor_model) model with a loosened [Bulk synchronous parallel](https://en.wikipedia.org/wiki/Bulk_synchronous_parallel) model into a component system that is driven by a distributed microkernel.
 
 Components can send messages to each other, spawn new components and self-organize into a computing graph resembling a neural network. Components are "grounded" to a 3D space, their position is optimized to minimize approximated communication overhead.
 
