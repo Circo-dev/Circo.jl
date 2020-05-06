@@ -1,7 +1,7 @@
 # Circo.jl
 [![Build Status](https://travis-ci.com/Circo-dev/Circo.jl.svg?branch=master)](https://travis-ci.com/Circo-dev/Circo.jl)
 
-*WARNING: Circo is in its infancy, not yet useful for real projects. The actor system will be released soon, but the following description will only be true for v0.5, planned to be released in Q3 2020. Check the [GitHub Projects](https://github.com/tisztamo/Circo.jl/projects) for the roadmap.*
+*WARNING: Circo is in its infancy, not yet useful for real projects. The actor system will be released soon (See [CircoCore](https://github.com/Circo-dev/CircoCore), but the following description will only be true for v0.5, planned to be released in Q3 2020. Check the [GitHub Projects](https://github.com/Circo-dev/Circo.jl/projects) for the roadmap.*
 
 Circo is a distributed computing platform, designed to scale to millions of nodes while providing metaphoric abstractions that help the programmer reason about such a complex system.
 
